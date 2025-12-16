@@ -1,33 +1,39 @@
 import { Routes, Route, Link } from 'react-router-dom';
-import './index.scss';
+import './styles/index.scss';
 
-import { Suspense } from 'react';
+import { Suspense} from 'react';
 import { AboutPageAsync } from './pages/AboutPage/AboutPage.async';
 import { MainPageAsync } from './pages/MainPage/MainPage.async';
+import { UseTheme } from './theme/UseTheme';
 
-function App(props: any) {
+//перечисление для хранения тем)
+
+function App() {
+  const { theme, toggleTheme } = UseTheme();
+
   return (
-    <div className="app">
+    <div className={`app ${theme}`}>
+      <button onClick={toggleTheme}>toggle Theme</button>
       <Link to={'/'}>Main</Link>
       <Link to={'/about'}>About</Link>
-        <Routes>
-          <Route 
-          path="/about" 
+      <Routes>
+        <Route
+          path="/about"
           element={
             <Suspense fallback={<div>Загрузка About...</div>}>
               <AboutPageAsync />
             </Suspense>
-          } 
+          }
         />
-        <Route 
-          path="/" 
+        <Route
+          path="/"
           element={
             <Suspense fallback={<div>Загрузка Main...</div>}>
               <MainPageAsync />
             </Suspense>
-          } 
+          }
         />
-          </Routes>
+      </Routes>
     </div>
   );
 }
